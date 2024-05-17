@@ -1,11 +1,27 @@
 pipeline {
     agent any
+     environment {
+        AWS_ACCOUNT_ID = "339712822600"
+        AWS_DEFAULT_REGION = "ap-south-1"
+        IMAGENAME = "node-app-test-new"
+        IMAGE_REPO_NAME = "nodejs"
+        IMAGE_TAG = "latest"
+        REPOSITORY_URI = ""
+    }
     
     stages {
+
+        stage('Logging into AWS ECR') {
+            steps {
+                script {
+                    sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                }  
+            }
+        }
         
         stage("code"){
             steps{
-                git url: "https://github.com/LondheShubham153/node-todo-cicd.git", branch: "master"
+                git url: "https://github.com/sanket7133/node-todo-cicd.git", branch: "master"
                 echo 'bhaiyya code clone ho gaya'
             }
         }
@@ -20,6 +36,14 @@ pipeline {
                 echo 'image scanning ho gayi'
             }
         }
+
+        stage('Pushing to ECR') {
+            steps {  
+                script {
+                    sh """docker tag ${IMAGENAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
+                    sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
+                }
+            }
         // stage("push"){
         //     steps{
         //         withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
