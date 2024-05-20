@@ -55,7 +55,7 @@ pipeline {
         stage('Ecr Deploy'){
             steps{
                   script {
-                    sh chmod +x script.sh
+                    sh """chmod +x script.sh"""
 			        sh './script.sh'
                 }
             }
