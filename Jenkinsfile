@@ -6,7 +6,14 @@ pipeline {
         IMAGENAME = "node-app-test-new"
         IMAGE_REPO_NAME = "nodejs"
         IMAGE_TAG = "latest"
-        REPOSITORY_URI = ""
+
+       // AWS_ACCOUNT_ID="CHANGE_ME"
+       // AWS_DEFAULT_REGION="CHANGE_ME" 
+	    CLUSTER_NAME="Node-app"
+	    SERVICE_NAME="Node-service"
+	    TASK_DEFINITION_NAME="node-app-fam"
+    	DESIRED_COUNT="2"
+        
     }
     
     stages {
@@ -45,6 +52,14 @@ pipeline {
                 }
             }
         }
+        stage('Ecr Deploy'){
+            steps{
+                  script {
+			        sh './script.sh'
+                }
+            }
+        }
+
         // stage("push"){
         //     steps{
         //         withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
