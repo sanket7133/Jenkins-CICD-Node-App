@@ -10,8 +10,8 @@ pipeline {
        // AWS_ACCOUNT_ID="CHANGE_ME"
        // AWS_DEFAULT_REGION="CHANGE_ME" 
 	    CLUSTER_NAME="Node-app"
-	    SERVICE_NAME="Node-service"
-	    TASK_DEFINITION_NAME="node-app-fam"
+	    SERVICE_NAME="node-service"
+	    TASK_DEFINITION_NAME="Node-fam"
     	DESIRED_COUNT="2"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         
