@@ -9,6 +9,7 @@ pipeline {
 
        // AWS_ACCOUNT_ID="CHANGE_ME"
        // AWS_DEFAULT_REGION="CHANGE_ME" 
+	     
 	    CLUSTER_NAME="Node-app"
 	    SERVICE_NAME="node-service"
 	    TASK_DEFINITION_NAME="Node-fam"
